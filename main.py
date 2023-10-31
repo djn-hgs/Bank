@@ -18,7 +18,7 @@ class Person:
 @dataclass
 class BankAccount:
     account_number: int
-    owners: [Person]
+    owners: [Person] = field(default_factory=list)
     balance: float = 0
 
     def credit(self, amount: float):
@@ -42,11 +42,11 @@ class Bank:
         now = datetime.datetime.now()
         self.log[now] = f'{now}: {message}'
 
-    def credit_account(self, account: BankAccount, amount: float):
+    def credit_account(self, account: 'BankAccount', amount: float):
         account.credit(amount)
         self.log_event(f'Credited {amount} to account: {account}')
 
-    def debit_account(self, account: BankAccount, amount: float):
+    def debit_account(self, account: 'BankAccount', amount: float):
         account.debit(amount)
         self.log_event(f'Debited {amount} from account: {account}')
 
