@@ -1,5 +1,6 @@
 import datetime
 from dataclasses import dataclass, field
+from hashlib import sha256
 
 
 @dataclass
@@ -12,7 +13,6 @@ class Person:
     def __str__(self):
         return f'{self.last_name}, {self.first_name} ({self.date_of_birth})'
 
-# TODO: Implement passwords
 
 
 @dataclass
@@ -20,12 +20,19 @@ class BankAccount:
     account_number: int
     owners: [Person] = field(default_factory=list)
     balance: float = 0
+    password_hash = ''
 
     def credit(self, amount: float):
         self.balance += amount
 
     def debit(self, amount: float):
         self.balance -= amount
+
+    def set_password(self, pwd: str):
+        self.password_hash = sha256(pwd.encode('utf-8')).hexdigest()
+
+    def check_password(self, pwd: str):
+        return sha256(pwd.encode('utf-8')).hexdigest() == self.password_hash
 
     def __str__(self):
         return str(self.account_number)
@@ -60,3 +67,14 @@ class Bank:
             if account.account_number == account_number:
                 return account
 
+    def set_password(self, account: BankAccount, pwd: str):
+        if account not in self.accounts:
+            raise Exception('Unknown account')
+
+        account.set_password(pwd)
+
+    def authenticate(self, account: BankAccount, pwd: str):
+        if account not in self.accounts:
+            raise Exception('Unknown account')
+
+        return account.check_password(pwd)
