@@ -78,3 +78,9 @@ class Bank:
             raise Exception('Unknown account')
 
         return account.check_password(pwd)
+
+    def get_balance(self, account: BankAccount):
+        if account not in self.accounts:
+            raise Exception('Unknown account')
+
+        return account.balance

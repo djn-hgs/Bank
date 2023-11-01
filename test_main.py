@@ -30,7 +30,7 @@ def another_account(test_person):
 
 
 @fixture
-def bank(test_account, another_account):
+def test_bank(test_account, another_account):
     return main.Bank(
         accounts=[
             test_account,
@@ -43,18 +43,18 @@ def test_initial_balance(test_account):
     assert test_account.balance == 0
 
 
-def test_credit(bank, test_account):
-    bank.credit_account(test_account, 100)
+def test_credit(test_bank, test_account):
+    test_bank.credit_account(test_account, 100)
     assert test_account.balance == 100
 
 
-def test_debit(bank, test_account):
-    bank.debit_account(test_account, 100)
+def test_debit(test_bank, test_account):
+    test_bank.debit_account(test_account, 100)
     assert test_account.balance == -100
 
 
-def test_transfer(bank, test_account, another_account):
-    bank.transfer_money(
+def test_transfer(test_bank, test_account, another_account):
+    test_bank.transfer_money(
         test_account,
         another_account,
         100
@@ -62,6 +62,6 @@ def test_transfer(bank, test_account, another_account):
     assert test_account.balance == -100 and another_account.balance == 100
 
 
-def test_password(bank, test_account):
-    bank.set_password(test_account, 'password')
-    assert bank.authenticate(test_account, 'password')
+def test_password(test_bank, test_account):
+    test_bank.set_password(test_account, 'password')
+    assert test_bank.authenticate(test_account, 'password')
