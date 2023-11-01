@@ -1,5 +1,5 @@
 from pytest import fixture
-import main
+import bank
 import datetime
 
 

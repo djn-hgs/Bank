@@ -1,23 +1,23 @@
 import datetime
-import main
+import bank
 
-test_person = main.Person(
+test_person = bank.Person(
     last_name='Noyce',
     first_name='Daryl',
     sex='M',
     date_of_birth=datetime.date(year=1975, month=10, day=28)
 )
 
-test_account = main.BankAccount(1234, [test_person])
+test_account = bank.BankAccount(1234, [test_person])
 test_account.set_password('password')
 
-another_account = main.BankAccount(5678, [test_person])
+another_account = bank.BankAccount(5678, [test_person])
 another_account.set_password('qwerty')
 
-test_bank = main.Bank(accounts=[test_account, another_account])
+test_bank = bank.Bank(accounts=[test_account, another_account])
 
 
-selected_account: main.BankAccount | None = None
+selected_account: bank.BankAccount | None = None
 
 while True:
     if selected_account:
